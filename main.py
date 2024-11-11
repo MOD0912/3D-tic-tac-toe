@@ -75,6 +75,7 @@ class Game(Entity):
 
     # Funktion für den Computerzug
     def computer_move(self):
+        player.end_of_game()
         best_score = -float('inf')
         best_move = None
         for i in range(3):
@@ -119,6 +120,7 @@ class Player (Entity):
                             color=color.gray
         )
         self.current_player = game.HUMAN
+        self.game_over = False
 
     def input(self, key):
         '''
@@ -142,7 +144,6 @@ class Player (Entity):
             self.lst.append(self.bullet)
 
     def calc(self, entity):
-        game_over = False
         rowow = int(entity.index)
         print("rowow: ", rowow) 
         if rowow <= 2:
@@ -160,8 +161,9 @@ class Player (Entity):
         if game.board[row][col] == ' ':
             game.board[row][col] = game.HUMAN
             self.current_player = game.COMPUTER
-
-        if self.current_player == game.COMPUTER and not game_over:
+        player.end_of_game()
+        if self.current_player == game.COMPUTER and not self.game_over:
+            
             game.computer_move()
             self.current_player = game.HUMAN
         else:
@@ -169,20 +171,23 @@ class Player (Entity):
         print(game.board)
         
     
-    def update(self):
-        game_over = False
+    def end_of_game(self):
+        '''
+        Check if the game is over
+        '''
         if game.check_draw():
             print("Unentschieden!")
-            game_over = True
+            self.game_over = True
             
         elif game.check_win(game.HUMAN):
             print("Du hast gewonnen!")
-            game_over = True
+            self.game_over = True
 
         elif game.check_win(game.COMPUTER):
             print("Der Computer hat gewonnen!")
-            game_over = True
+            self.game_over = True        
 
+        
         
         
     
@@ -219,11 +224,17 @@ class Bullet(Entity):
             if self.ray.entity==None or self.ray.entity.name != "self.board":
                 destroy(self)
                 return
-            print(self.ray.entity.index)
-            player.calc(self.ray.entity)
+            
+            
             #print(self.ray.entity)
-            self.ray.entity.texture = "/textures/x.png"
-            game.value_lst[self.ray.entity.index] = game.HUMAN
+            if self.ray.entity.value == " " and player.game_over == False:
+                self.ray.entity.texture = "/textures/x.png"
+                self.ray.entity.value = game.HUMAN
+                game.value_lst[self.ray.entity.index] = game.HUMAN
+                player.calc(self.ray.entity)
+                player.end_of_game()
+            print(self.ray.entity.index)
+            
             print()
             print(game.value_lst)
             print()
