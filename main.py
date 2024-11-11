@@ -7,7 +7,7 @@ class Game(Entity):
     '''
     def __init__(self):
         super().__init__()
-        self.turn = 0
+        self.turn = 0   
 
     def end_turn(self):
         '''
