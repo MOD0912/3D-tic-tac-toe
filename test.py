@@ -17,6 +17,7 @@ class Game(Entity):
         self.HUMAN = 'X'
         self.COMPUTER = 'O'
         self.value_lst = [' ' for _ in range(9)]
+        print(self.value_lst)
 
     def end_turn(self):
         '''
@@ -98,36 +99,6 @@ class Game(Entity):
         self.value_lst[entity.index] = self.COMPUTER
         
 
-<<<<<<< HEAD
-    # Spiel-Loop
-        
-        
-
-        
-class Turret(Entity):
-    '''
-    Create a turret class; The turret is the enemy of the player; It is stationary 
-    and shoots at the fields where the computer wants to place its sign
-    '''
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        
-    
-    def shoot(self):
-        '''
-        Shoot at the fields where the computer wants to place its sign
-        '''
-        
-        
-
-
-        
-
-
-
-
-=======
->>>>>>> cfd229e8bd2a75886ab4e6b25038015edf2db32c
 
 class Player (Entity):
     '''
@@ -137,14 +108,15 @@ class Player (Entity):
         self.controller = FirstPersonController (**kwargs)
         super().__init__(parent=self.controller)
         self.lst = []
+        self.current_player = game.HUMAN
         self.hand_gun = Entity(
                             parent=camera.ui,
-                            model='cube',
+                            model='hand_stl.STL',
                             texture='white_cube',
-                            scale=(0.2, 0.2, 1),
-                            position=(0.5, -0.4),
-                            rotation=Vec3(15, -10, 0),
-                            color=color.gray
+                            color="#E3BC9A",
+                            scale=0.001,
+                            position=(0.3, -1),
+                            rotation=Vec3(270, 0, 0)
         )
         self.current_player = game.HUMAN
         self.game_over = False
@@ -160,9 +132,10 @@ class Player (Entity):
             print("how")
         if key == "left mouse down" and game.turn == 0:
             self.bullet = Bullet (parent=scene,
-                    model='sphere',
-                    color=color.yellow,
-                    scale=0.1,
+                    model='hand_stl_v1.stl',
+                    texture='white_cube',
+                    color="#E3BC9A",
+                    scale=0.00005,
                     #collider='sphere',
                     name='bullet',
                     position=self.controller.camera_pivot.world_position,
@@ -229,8 +202,8 @@ ground = Entity(model='plane',
 sky = Sky(texture='sky_sunset')
 
 reset = Entity(parent=scene,
-                model='texture/hand_stl.STL',
-                texture='texture/hand_stl.STL',
+                model='hand_stl.STL',
+                #texture='texture/hand_stl.STL',
                 scale=5,
                 position=(9, 0.5*1.5, 5),
                 color=color.red)
@@ -239,7 +212,7 @@ class Bullet(Entity):
     '''
     Bullet class
     '''
-    def __init__(self, speed=100, lifetime=5, **kwargs):
+    def __init__(self, speed=100000, lifetime=10, **kwargs):
         super().__init__(**kwargs)
         self.speed = speed
         self.lifetime = lifetime
@@ -251,7 +224,7 @@ class Bullet(Entity):
         '''
         Update the position of the bullet
         '''
-        self.ray = raycast(self.world_position, self.forward, distance=self.speed*time.dt)
+        self.ray = raycast(self.world_position, self.forward, distance=100*time.dt)
         if not self.ray.hit and time.time() - self.start < self. lifetime:
             self.world_position += self.forward * self.speed * time.dt
         else:
@@ -266,11 +239,8 @@ class Bullet(Entity):
                 self.ray.entity.value = game.HUMAN
                 game.value_lst[self.ray.entity.index] = game.HUMAN
                 player.calc(self.ray.entity)
-<<<<<<< HEAD
-            #print(self.ray.entity.index)
-=======
                 player.end_of_game()
->>>>>>> cfd229e8bd2a75886ab4e6b25038015edf2db32c
+            
             
             print()
             print(game.value_lst)
@@ -282,19 +252,8 @@ class Bullet(Entity):
         
 
 game = Game()       
-<<<<<<< HEAD
-player = Player(position=(-10,100,0), rotation=(0,90, 0))
-# turret = Turret(model='cube',
-#                 texture='white_cube',
-#                 scale=(1, 1, 1),
-#                 position=(10, 0.5, 0),
-#                 #rotation=Vec3(15, -10, 0),
-#                 color=color.gray)
-x=0
-=======
 player = Player(position=(0,10,0))
 x=9
->>>>>>> cfd229e8bd2a75886ab4e6b25038015edf2db32c
 y=8
 z=2
 lst = []
