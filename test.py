@@ -132,9 +132,10 @@ class Player (Entity):
             print("how")
         if key == "left mouse down" and game.turn == 0:
             self.bullet = Bullet (parent=scene,
-                    model='hand_stl_v1.STL',
-                    color=color.yellow,
-                    scale=0.001,
+                    model='hand_stl_v1.stl',
+                    texture='white_cube',
+                    color="#E3BC9A",
+                    scale=0.00005,
                     #collider='sphere',
                     name='bullet',
                     position=self.controller.camera_pivot.world_position,
@@ -211,7 +212,7 @@ class Bullet(Entity):
     '''
     Bullet class
     '''
-    def __init__(self, speed=10000, lifetime=10, **kwargs):
+    def __init__(self, speed=100000, lifetime=10, **kwargs):
         super().__init__(**kwargs)
         self.speed = speed
         self.lifetime = lifetime
