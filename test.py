@@ -132,7 +132,7 @@ class Player (Entity):
             print("how")
         if key == "left mouse down" and game.turn == 0:
             self.bullet = Bullet (parent=scene,
-                    model='hand_stl v1.STL',
+                    model='hand_stl_v1.STL',
                     color=color.yellow,
                     scale=0.001,
                     #collider='sphere',
