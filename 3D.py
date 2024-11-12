@@ -1,3 +1,8 @@
+# Description: Tic Tac Toe game in 3D
+# Author: Melvin Kapferer
+# Date: 11.11.2024
+# Github: MOD0912
+
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
 
@@ -94,12 +99,6 @@ class Game(Entity):
         self.value_lst[entity.index] = self.COMPUTER
         
 
-    # Spiel-Loop
-        
-        
-
-        
-    
 
 class Player (Entity):
     '''
@@ -188,10 +187,7 @@ class Player (Entity):
             self.game_over = True        
 
         
-        
-        
-    
-
+      
 app = Ursina()
 ground = Entity(model='plane',
                 scale=30,
@@ -246,7 +242,7 @@ class Bullet(Entity):
 
 game = Game()       
 player = Player(position=(0,10,0))
-x=5
+x=9
 y=8
 z=2
 lst = []
@@ -271,9 +267,7 @@ for i in range(9):
 a = []
 b = []
 c = []
-d = []
-e = []
-f = []
+
 
 for i in range(0, 3):
     a.append(lst[i])
