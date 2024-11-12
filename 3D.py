@@ -196,6 +196,17 @@ ground = Entity(model='plane',
                 name='ground',
                 collider='mesh')
 
+#sky = Sky(texture='textures/x.png')
+
+sky = Sky(texture='sky_sunset')
+
+reset = Entity(parent=scene,
+                model='texture/hand_stl.STL',
+                texture='texture/hand_stl.STL',
+                scale=5,
+                position=(9, 0.5*1.5, 5),
+                color=color.red)
+
 class Bullet(Entity):
     '''
     Bullet class
@@ -212,7 +223,6 @@ class Bullet(Entity):
         '''
         Update the position of the bullet
         '''
-        game_over = False
         self.ray = raycast(self.world_position, self.forward, distance=self.speed*time.dt)
         if not self.ray.hit and time.time() - self.start < self. lifetime:
             self.world_position += self.forward * self.speed * time.dt
@@ -229,7 +239,6 @@ class Bullet(Entity):
                 game.value_lst[self.ray.entity.index] = game.HUMAN
                 player.calc(self.ray.entity)
                 player.end_of_game()
-            print(self.ray.entity.index)
             
             print()
             print(game.value_lst)
@@ -278,7 +287,6 @@ for i in range(6, 9):
 lst.clear()
 lst.extend([a, b, c])
 
-print(lst)
 app.run()
 
 
