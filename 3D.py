@@ -193,17 +193,18 @@ ground = Entity(model='plane',
 #sky = Sky(texture='textures/x.png')
 
 sky = Sky(texture='sky_sunset')
-rest_wall = Entity(
-            model="textures/Button.obj",
-            collider="",
-            texture=None,
-            scale=(9, 9, 1),
-            position=(0, 4.5, 10),
+rest_butt = Entity(
+            model="textures/Button v1.obj",
+            collider="textures/Button v1.obj",
+
+            scale=(5, 5, 5),
+            position=(0, 4, 12.5),
             value="reset",
             name="reset",
-            color=color.black)
+            color=color.red
+            )
 
-reset = Entity(
+reset_wall = Entity(
             model='cube',
             collider="cube",
             texture=None,
@@ -211,7 +212,7 @@ reset = Entity(
             position=(0, 4.5, 14),
             value="reset",
             name="reset",
-            color=color.black)
+            color=color.gray)
 
 
 
@@ -255,7 +256,6 @@ class Bullet(Entity):
                 print("reset")
                 print()
                 for i in range(9):
-                    print(lst[0])
                     game.value_lst[i] = " "
                     lst2[i].texture = "/textures/cube.png"
                     lst2[i].value = " "
