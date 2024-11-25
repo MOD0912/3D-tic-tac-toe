@@ -194,7 +194,7 @@ ground = Entity(model='plane',
 
 sky = Sky(texture='sky_sunset')
 rest_wall = Entity(
-            model="",
+            model="textures/Button.obj",
             collider="",
             texture=None,
             scale=(9, 9, 1),
