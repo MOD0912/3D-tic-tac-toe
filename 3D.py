@@ -17,6 +17,7 @@ class Game(Entity):
         self.HUMAN = 'X'
         self.COMPUTER = 'O'
         self.value_lst = [' ' for _ in range(9)]
+        print(self.value_lst)
 
     def end_turn(self):
         '''
@@ -98,36 +99,6 @@ class Game(Entity):
         self.value_lst[entity.index] = self.COMPUTER
         
 
-<<<<<<< HEAD
-    # Spiel-Loop
-        
-        
-
-        
-class Turret(Entity):
-    '''
-    Create a turret class; The turret is the enemy of the player; It is stationary 
-    and shoots at the fields where the computer wants to place its sign
-    '''
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        
-    
-    def shoot(self):
-        '''
-        Shoot at the fields where the computer wants to place its sign
-        '''
-        
-        
-
-
-        
-
-
-
-
-=======
->>>>>>> cfd229e8bd2a75886ab4e6b25038015edf2db32c
 
 class Player (Entity):
     '''
@@ -137,6 +108,7 @@ class Player (Entity):
         self.controller = FirstPersonController (**kwargs)
         super().__init__(parent=self.controller)
         self.lst = []
+        self.current_player = game.HUMAN
         self.hand_gun = Entity(
                             parent=camera.ui,
                             model='cube',
@@ -266,11 +238,7 @@ class Bullet(Entity):
                 self.ray.entity.value = game.HUMAN
                 game.value_lst[self.ray.entity.index] = game.HUMAN
                 player.calc(self.ray.entity)
-<<<<<<< HEAD
-            #print(self.ray.entity.index)
-=======
                 player.end_of_game()
->>>>>>> cfd229e8bd2a75886ab4e6b25038015edf2db32c
             
             print()
             print(game.value_lst)
@@ -282,19 +250,8 @@ class Bullet(Entity):
         
 
 game = Game()       
-<<<<<<< HEAD
-player = Player(position=(-10,100,0), rotation=(0,90, 0))
-# turret = Turret(model='cube',
-#                 texture='white_cube',
-#                 scale=(1, 1, 1),
-#                 position=(10, 0.5, 0),
-#                 #rotation=Vec3(15, -10, 0),
-#                 color=color.gray)
-x=0
-=======
 player = Player(position=(0,10,0))
 x=9
->>>>>>> cfd229e8bd2a75886ab4e6b25038015edf2db32c
 y=8
 z=2
 lst = []
@@ -331,7 +288,3 @@ lst.clear()
 lst.extend([a, b, c])
 
 app.run()
-
-
-
-

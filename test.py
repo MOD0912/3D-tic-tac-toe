@@ -202,14 +202,14 @@ ground = Entity(model='plane',
 sky = Sky(texture='sky_sunset')
 
 reset = Entity(parent=scene,
-                model='hand_stl.STL',
+                model='hand_stl_v1.STL',
                 #texture='texture/hand_stl.STL',
-                scale=5,
+                scale=0.01,
                 position=(9, 0.5*1.5, 5),
                 color=color.red)
 
 class Bullet(Entity):
-    '''
+    ''' 
     Bullet class
     '''
     def __init__(self, speed=100000, lifetime=10, **kwargs):
