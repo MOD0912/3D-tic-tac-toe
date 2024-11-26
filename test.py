@@ -197,7 +197,7 @@ ground = Entity(model='plane',
                 name='ground',
                 collider='mesh')
 
-#sky = Sky(texture='textures/x.png')
+sky = Sky(texture='textures/o.png')
 
 sky = Sky(texture='sky_sunset')
 

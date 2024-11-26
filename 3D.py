@@ -5,6 +5,7 @@
 
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
+from ursina.shaders import lit_with_shadows_shader
 
 class Game(Entity):
     '''
@@ -19,12 +20,7 @@ class Game(Entity):
         self.value_lst = [' ' for _ in range(9)]
         print(self.value_lst)
 
-    def end_turn(self):
-        '''
-        End the turn of the player
-        '''
-        #self.turn = 1
-        print("computers turn")
+
 
     def check_win(self, player):
     # Überprüfen der Reihen
@@ -50,7 +46,7 @@ class Game(Entity):
         return True
 
     # Min-Max-Algorithmus
-    def minimax(self, depth, is_maximizing):
+    def minimax(self, is_maximizing):
         if self.check_win(self.COMPUTER):
             return 1
         if self.check_win(self.HUMAN):
@@ -63,7 +59,7 @@ class Game(Entity):
                 for j in range(3):
                     if self.board[i][j] == ' ':
                         self.board[i][j] = self.COMPUTER
-                        score = self.minimax(depth + 1, False)
+                        score = self.minimax(False)
                         self.board[i][j] = ' '
                         best_score = max(score, best_score)
             return best_score
@@ -73,7 +69,7 @@ class Game(Entity):
                 for j in range(3):
                     if self.board[i][j] == ' ':
                         self.board[i][j] = self.HUMAN
-                        score = self.minimax(depth + 1, True)
+                        score = self.minimax(True)
                         self.board[i][j] = ' '
                         best_score = min(score, best_score)
             return best_score
@@ -87,7 +83,7 @@ class Game(Entity):
             for j in range(3):
                 if self.board[i][j] == ' ':
                     self.board[i][j] = self.COMPUTER
-                    score = self.minimax(0, False)
+                    score = self.minimax(False)
                     self.board[i][j] = ' '
                     if score > best_score:
                         best_score = score
@@ -125,7 +121,6 @@ class Player (Entity):
         '''
         Handle the input of the player
         '''
-        game_over = False
         if key == 'alt':
             app.destroy()
             exit()
@@ -139,7 +134,6 @@ class Player (Entity):
                     name='bullet',
                     position=self.controller.camera_pivot.world_position,
                     rotation=self.controller.camera_pivot.world_rotation)
-            game.end_turn()
             self.lst.append(self.bullet)
 
     def calc(self, entity):
@@ -194,18 +188,41 @@ ground = Entity(model='plane',
                 texture= 'white_cube',
                 texture_scale= (15, 15),
                 name='ground',
+                value='ground',
                 collider='mesh')
 
 #sky = Sky(texture='textures/x.png')
 
 sky = Sky(texture='sky_sunset')
+rest_butt = Entity(
+            model="textures/Button v1",
+            #collider="textures/Button v1.obj",
 
-reset = Entity(parent=scene,
-                model='texture/hand_stl.STL',
-                texture='texture/hand_stl.STL',
-                scale=5,
-                position=(9, 0.5*1.5, 5),
-                color=color.red)
+            scale=(1, 1, 1),
+            position=(0, 2.65, 6.5),
+            value="reset",
+            name="reset",
+            color=color.red,
+            shader=lit_with_shadows_shader
+
+            )
+
+reset_wall = Entity(
+            model='textures/Button_wall v32',
+            #collider="textures/Körper1.stl",
+            #texture=None,
+            #scale=(5, 5, 9/5),
+            scale=1,
+            position=(0, 2.65, 7.6),
+            value="reset",
+            name="reset",
+
+            texture=load_texture("textures/arrows_around_circle.png", "textures/cube.png"),
+            #texture_scale=(16, 16),
+            #color=color.black
+            )
+
+
 
 class Bullet(Entity):
     '''
@@ -227,22 +244,37 @@ class Bullet(Entity):
         if not self.ray.hit and time.time() - self.start < self. lifetime:
             self.world_position += self.forward * self.speed * time.dt
         else:
-            if self.ray.entity==None or self.ray.entity.name != "self.board":
+        
+            #print(self.ray.entity)
+            if self.ray.entity==None:
+                print("destroy")
                 destroy(self)
                 return
             
-            
-            #print(self.ray.entity)
             if self.ray.entity.value == " " and player.game_over == False:
                 self.ray.entity.texture = "/textures/x.png"
                 self.ray.entity.value = game.HUMAN
                 game.value_lst[self.ray.entity.index] = game.HUMAN
                 player.calc(self.ray.entity)
                 player.end_of_game()
+
+            if self.ray.entity.value == "reset":
+                print()
+                print("reset")
+                print()
+                for i in range(9):
+                    game.value_lst[i] = " "
+                    lst2[i].texture = "/textures/cube.png"
+                    lst2[i].value = " "
+                game.board = [[' ' for _ in range(3)] for _ in range(3)]
+                game.turn = 0
+                player.game_over = False
+                player.current_player = game.HUMAN
+                #print(game.board)
+                    
+            print(self.ray.entity)
             
-            print()
-            print(game.value_lst)
-            print()
+
             destroy(self)
             return
         
@@ -256,7 +288,7 @@ y=8
 z=2
 lst = []
 value_lst = []
-
+lst2 = []
 for i in range(9):
     z-=2
     if i % 3 == 0:
@@ -276,7 +308,7 @@ for i in range(9):
 a = []
 b = []
 c = []
-
+lst2 = lst.copy()
 
 for i in range(0, 3):
     a.append(lst[i])
