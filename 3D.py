@@ -116,6 +116,8 @@ class Player (Entity):
         )
         self.current_player = game.HUMAN
         self.game_over = False
+        self.btn = None
+        self.tim = float(inf)
 
     def input(self, key):
         '''
@@ -180,7 +182,11 @@ class Player (Entity):
             print("Der Computer hat gewonnen!")
             self.game_over = True        
 
-        
+    def update(self):
+        #print(self.tim - time.time())
+        if self.tim - time.time() < -1:
+            #print("reset_ball")
+            self.btn.position = (0, 2.65, 6.5)
       
 app = Ursina()
 ground = Entity(model='plane',
@@ -196,28 +202,27 @@ ground = Entity(model='plane',
 sky = Sky(texture='sky_sunset')
 rest_butt = Entity(
             model="textures/Button v1",
-            #collider="textures/Button v1.obj",
-
+            collider="textures/Button v1.obj",
             scale=(1, 1, 1),
             position=(0, 2.65, 6.5),
             value="reset",
             name="reset",
             color=color.red,
             shader=lit_with_shadows_shader
-
             )
 
 reset_wall = Entity(
             model='textures/Button_wall v32',
-            #collider="textures/Körper1.stl",
+            collider="textures/Button_wall v32.obj",	
             #texture=None,
             #scale=(5, 5, 9/5),
             scale=1,
-            position=(0, 2.65, 7.6),
-            value="reset",
-            name="reset",
-
-            texture=load_texture("textures/arrows_around_circle.png", "textures/cube.png"),
+            position=(0, 2.65, 6.7),
+            rotation=(180, 0, 0),
+            value="reset_wall",
+            name="reset_wall",
+            color=color.light_gray,
+            texture="textures/arrows_around_circle.png"
             #texture_scale=(16, 16),
             #color=color.black
             )
@@ -235,6 +240,7 @@ class Bullet(Entity):
         self.start = time.time()
         self.ray = None
         self.current_player = game.HUMAN
+
         
     def update(self) :
         '''
@@ -270,8 +276,13 @@ class Bullet(Entity):
                 game.turn = 0
                 player.game_over = False
                 player.current_player = game.HUMAN
+                self.ray.entity.position = (0, 2.65, 6.6)
+                player.btn = self.ray.entity
+                player.tim = time.time()
+           
                 #print(game.board)
-                    
+            
+
             print(self.ray.entity)
             
 
