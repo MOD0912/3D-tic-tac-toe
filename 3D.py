@@ -5,6 +5,7 @@
 
 from ursina import *
 from ursina.prefabs.first_person_controller import FirstPersonController
+from ursina.shaders import lit_with_shadows_shader
 
 class Game(Entity):
     '''
@@ -194,26 +195,32 @@ ground = Entity(model='plane',
 
 sky = Sky(texture='sky_sunset')
 rest_butt = Entity(
-            model="textures/Button v1.obj",
-            collider="textures/Button v1.obj",
+            model="textures/Button v1",
+            #collider="textures/Button v1.obj",
 
-            scale=(5, 5, 5),
-            position=(0, 4, 12.5),
+            scale=(1, 1, 1),
+            position=(0, 2.65, 6.5),
             value="reset",
             name="reset",
-            color=color.red
+            color=color.red,
+            shader=lit_with_shadows_shader
+
             )
 
 reset_wall = Entity(
-            model='cube',
-            collider="cube",
-            texture=None,
-            scale=(9, 9, 1),
-            position=(0, 4.5, 14),
+            model='textures/Button_wall v32',
+            #collider="textures/Körper1.stl",
+            #texture=None,
+            #scale=(5, 5, 9/5),
+            scale=1,
+            position=(0, 2.65, 7.6),
             value="reset",
             name="reset",
-            color=color.gray)
 
+            texture=load_texture("textures/arrows_around_circle.png", "textures/cube.png"),
+            #texture_scale=(16, 16),
+            #color=color.black
+            )
 
 
 
