@@ -187,45 +187,6 @@ class Player (Entity):
         if self.tim - time.time() < -1:
             #print("reset_ball")
             self.btn.position = (0, 2.65, 6.5)
-      
-app = Ursina()
-ground = Entity(model='plane',
-                scale=30,
-                texture= 'white_cube',
-                texture_scale= (15, 15),
-                name='ground',
-                value='ground',
-                collider='mesh')
-
-#sky = Sky(texture='textures/x.png')
-
-sky = Sky(texture='sky_sunset')
-rest_butt = Entity(
-            model="textures/Button v1",
-            collider="textures/Button v1.obj",
-            scale=(1, 1, 1),
-            position=(0, 2.65, 6.5),
-            value="reset",
-            name="reset",
-            color=color.red,
-            shader=lit_with_shadows_shader
-            )
-
-reset_wall = Entity(
-            model='textures/Button_wall v32',
-            collider="textures/Button_wall v32.obj",	
-            #texture=None,
-            #scale=(5, 5, 9/5),
-            scale=1,
-            position=(0, 2.65, 6.7),
-            rotation=(180, 0, 0),
-            value="reset_wall",
-            name="reset_wall",
-            color=color.light_gray,
-            texture="textures/arrows_around_circle.png"
-            #texture_scale=(16, 16),
-            #color=color.black
-            )
 
 
 
@@ -290,10 +251,48 @@ class Bullet(Entity):
             return
         
         #print(self.get_position())
-        
+app = Ursina()
+ground = Entity(model='plane',
+                scale=30,
+                texture= 'white_cube',
+                texture_scale= (15, 15),
+                name='ground',
+                value='ground',
+                collider='mesh')
 
+#sky = Sky(texture='textures/x.png')
+
+sky = Sky(texture='sky_sunset')
+rest_butt = Entity(
+            model="textures/Button v1",
+            collider="textures/Button v1.obj",
+            scale=(1, 1, 1),
+            position=(0, 2.65, 6.5),
+            value="reset",
+            name="reset",
+            color=color.red,
+            shader=lit_with_shadows_shader
+            )
+
+reset_wall = Entity(
+            model='textures/Button_wall v32',
+            collider="textures/Button_wall v32.obj",	
+            #texture=None,
+            #scale=(5, 5, 9/5),
+            scale=1,
+            position=(0, 2.65, 6.7),
+            rotation=(180, 0, 0),
+            value="reset_wall",
+            name="reset_wall",
+            color=color.light_gray,
+            texture="textures/arrows_around_circle.png"
+            #texture_scale=(16, 16),
+            #color=color.black
+            )
+
+rest = Text(parent=scene, text="Reset", position=(-2, 6.65, 6.5), scale=60, color=color.red)
 game = Game()       
-player = Player(position=(0,10,0))
+player = Player(position=(0,10,0), rotation=(0,70,0))
 x=9
 y=8
 z=2
